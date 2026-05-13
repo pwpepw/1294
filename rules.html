@@ -349,10 +349,10 @@ body {
 const ICONS = ['ti-swords','ti-package','ti-trophy','ti-users','ti-shield','ti-star','ti-crown','ti-flame','ti-bolt','ti-target','ti-flag','ti-map','ti-castle','ti-axe','ti-medal','ti-diamond','ti-clock','ti-calendar-event','ti-gift','ti-coin','ti-chart-bar','ti-rocket','ti-heart','ti-snowflake','ti-mountain','ti-campfire','ti-compass','ti-sword','ti-helmet'];
 
 const events = [
-  { icon:'ti-swords', title:'경기장', desc:'1294 서버 인원들은 공격 금지!', rules:[{label:'공격 대상',text:'상대 서버만 공격, 1294 서버 인원은 때리지 말아주세요.'}]},
+  { icon:'ti-swords', title:'경기장', desc:'1294 유저 공격 금지', rules:[{label:'공격 대상',text:'상대 서버만 공격, 1294는 때리지 말아주세요'}]},
   { icon:'ti-package', title:'곰 사냥', desc:'20, 22, 01시 진행', rules:[{label:'8곰',text:'20:00 곰 - NO1 본맹'},{label:'10곰',text:'22:00 곰 - NO1 본맹'},{label:'1곰',text:'01:00 곰 - no1 부맹'}]},
-  { icon:'ti-users', title:'곰 집결원', desc:'곰사냥 집결원 참여 영웅 안내', rules:[{label:'사용 가능',text:'S1 제로니모 제시 제셀 서윤, S5 그웬, S7 브레들리, S8 헨드릭 소냐, S9 마그누스, S10 블랑쉬'}], notice:'해당 영웅 제외하곤 회군 가능성 있습니다.' },
-  { icon:'ti-trophy', title:'요새&성채', desc:'집결원 50K', rules:[{label:'참여 횟수',text:'기본적으로 1회만 참여 & 집결 시간 2분 남으면 중복 참여 가능'},{label:'병력 수',text:'50,000명(50K) 탑승'}], notice:'요새성채 상관 없이 기본 한 번만 참여 가능' }
+  { icon:'ti-users', title:'곰 집결원', desc:'곰사냥 집결원 참여 영웅 안내', rules:[{label:'사용 가능',text:'S1 제로니모 제시 제셀 서윤, S5 그웬, S7 브레들리, S8 헨드릭 소냐, S9 마그누스, S10 블랑쉬'}], notice:'이상한 영웅 보내면 킥해요' },
+  { icon:'ti-trophy', title:'요새&성채', desc:'집결원 50K', rules:[{label:'참여 횟수',text:'기본적으로 1회만 참여 & 집결 시간 2분 남으면 횟수제한X - 중복 참여 가능'},{label:'병력 수',text:'50,000명(50K) 탑승'}], notice:'요새성채 상관 없이 기본 1회 > 이후 중복 참여' }
 ];
 
 let currentIndex=null, isEditMode=false, isCardEditMode=false;
