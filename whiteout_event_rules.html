@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Whiteout Survival — 서버 이벤트 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<style>
+:root {
+  --sidebar-w: 200px;
+  --sidebar-bg: #3d4250;
+  --sidebar-hover: #4a5060;
+  --sidebar-text: #b8bcc8;
+  --bg: #efefef;
+  --surface: #ffffff;
+  --surface2: #f5f5f5;
+  --border: rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.18);
+  --text: #1a1a1a;
+  --text2: #5a5a56;
+  --text3: #9a9a94;
+  --accent: #3d4250;
+  --accent-bg: #eef3fd;
+  --accent-text: #1a4fb0;
+  --btn-bg: #3d4250;
+  --btn-text: #ffffff;
+  --warn-bg: #fef8ec;
+  --warn-border: rgba(180,130,0,0.2);
+  --warn-text: #7a5800;
+  --danger-bg: #fff0f0;
+  --danger-text: #c0392b;
+  --danger-border: rgba(192,57,43,0.2);
+  --radius: 8px;
+  --radius-sm: 5px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 16px 16px;
+  color: #fff;
+  font-size: 14px; font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+.sidebar-logo i { font-size: 22px; }
+.sidebar-menu { flex: 1; padding: 8px 0; overflow-y: auto; }
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  color: var(--sidebar-text);
+  font-size: 13px; font-weight: 400;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  border: none; background: none; width: 100%; text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.sidebar-item:hover { background: var(--sidebar-hover); color: #fff; }
+.sidebar-item.active { background: var(--sidebar-hover); color: #fff; }
+.sidebar-item i { font-size: 15px; width: 16px; text-align: center; flex-shrink: 0; }
+
+/* MAIN */
+.main-wrap {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 50px;
+  flex-shrink: 0;
+}
+.page-content { padding: 30px 28px 48px; flex: 1; }
+
+.page-title {
+  font-size: 22px; font-weight: 700; color: var(--text);
+  margin-bottom: 4px; cursor: pointer; display: inline-block;
+  border-radius: var(--radius-sm); padding: 2px 6px; transition: background 0.12s;
+}
+.page-title:hover { background: rgba(0,0,0,0.05); }
+.page-sub {
+  font-size: 13px; color: var(--text2); margin-bottom: 22px;
+  cursor: pointer; display: inline-block;
+  border-radius: var(--radius-sm); padding: 2px 6px; transition: background 0.12s;
+}
+.page-sub:hover { background: rgba(0,0,0,0.05); }
+
+/* SECTION */
+.section {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text3);
+}
+
+/* EVENT CARDS */
+.event-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.event-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px;
+  cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s;
+  position: relative;
+}
+.event-card:hover { border-color: var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.event-card.active { border-color: var(--accent); background: var(--accent-bg); }
+.event-card .ecard-icon { font-size: 18px; color: var(--accent); margin-bottom: 8px; display: block; }
+.event-card.active .ecard-icon { color: var(--accent-text); }
+.event-card h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.event-card p { font-size: 11px; color: var(--text2); line-height: 1.5; }
+.card-del-btn {
+  position: absolute; top: 7px; right: 7px;
+  background: var(--danger-bg); border: 1px solid var(--danger-border);
+  color: var(--danger-text); border-radius: 4px;
+  width: 20px; height: 20px; font-size: 11px;
+  cursor: pointer; display: none;
+  align-items: center; justify-content: center; font-family: inherit;
+}
+.card-edit-mode .card-del-btn { display: flex; }
+.card-edit-mode .event-card { cursor: default; }
+
+.add-card-btn {
+  margin-top: 10px; width: 100%; padding: 9px; font-size: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  border: 1px dashed var(--border2); border-radius: var(--radius-sm);
+  background: transparent; color: var(--text2); cursor: pointer; display: none;
+  transition: background 0.12s;
+}
+.add-card-btn.visible { display: block; }
+.add-card-btn:hover { background: var(--surface2); }
+
+/* DETAIL PANEL */
+.detail-panel {
+  display: none; margin-top: 16px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.detail-panel.visible { display: block; }
+.detail-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.detail-header .dh-icon { font-size: 18px; color: var(--accent); flex-shrink: 0; }
+.detail-header h2 { font-size: 15px; font-weight: 700; color: var(--text); }
+.detail-header p { font-size: 12px; color: var(--text2); margin-top: 1px; }
+.header-actions { margin-left: auto; display: flex; gap: 7px; flex-shrink: 0; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;
+  padding: 6px 11px; cursor: pointer; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); background: var(--surface);
+  color: var(--text); transition: background 0.12s; white-space: nowrap;
+}
+.btn:hover { background: var(--surface2); }
+.btn-dark { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+.btn-dark:hover { background: #2e3240; border-color: #2e3240; }
+.btn-sm { font-size: 11px; padding: 4px 9px; }
+
+/* RULES */
+.detail-body { padding: 14px 16px; }
+.rule-list { display: flex; flex-direction: column; gap: 7px; }
+.rule-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 11px; transition: background 0.12s;
+}
+.edit-mode .rule-item { cursor: pointer; }
+.edit-mode .rule-item:hover { background: #f0f0f0; }
+.rule-num {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--btn-bg); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.rule-text { font-size: 13px; color: var(--text); line-height: 1.6; flex: 1; }
+.rule-text strong { font-weight: 700; }
+.rule-del {
+  flex-shrink: 0; background: none; border: none; color: var(--text3);
+  cursor: pointer; font-size: 13px; padding: 0 2px; line-height: 1;
+  display: none; font-family: inherit;
+}
+.edit-mode .rule-del { display: block; }
+
+.add-rule-btn {
+  margin-top: 7px; width: 100%; padding: 8px; font-size: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  border: 1px dashed var(--border2); border-radius: var(--radius-sm);
+  background: transparent; color: var(--text2); cursor: pointer; display: none;
+  transition: background 0.12s;
+}
+.add-rule-btn.visible { display: block; }
+.add-rule-btn:hover { background: var(--surface); }
+
+.notice-box {
+  margin-top: 10px; background: var(--warn-bg); border: 1px solid var(--warn-border);
+  border-radius: var(--radius-sm); padding: 10px 13px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.notice-box .ti { color: var(--warn-text); font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+.notice-box p { font-size: 12px; color: var(--warn-text); line-height: 1.6; cursor: pointer; }
+.edit-mode .notice-box p:hover { text-decoration: underline dashed; }
+
+.edit-hint { font-size: 11px; color: var(--text3); text-align: center; margin-top: 10px; display: none; }
+.edit-hint.visible { display: block; }
+
+/* ICON GRID */
+.icon-grid {
+  display: grid; grid-template-columns: repeat(8, 1fr);
+  gap: 5px; margin-top: 6px; max-height: 160px; overflow-y: auto;
+}
+.icon-opt {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; transition: background 0.1s; color: var(--text2); background: var(--surface2);
+}
+.icon-opt:hover { background: var(--accent-bg); color: var(--accent-text); }
+.icon-opt.selected { background: var(--btn-bg); color: #fff; border-color: var(--btn-bg); }
+
+/* MODAL */
+.modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 20px; width: 420px; max-width: 92vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15); max-height: 88vh; overflow-y: auto;
+}
+.modal h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.modal label { font-size: 11px; color: var(--text2); display: block; margin-bottom: 3px; margin-top: 10px; }
+.modal input, .modal textarea {
+  width: 100%; font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
+  padding: 8px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); background: var(--surface2);
+  color: var(--text); resize: vertical; outline: none; transition: border-color 0.12s;
+}
+.modal input:focus, .modal textarea:focus { border-color: var(--accent); }
+.modal textarea { min-height: 72px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 7px; margin-top: 14px; }
+
+.footer { text-align: center; font-size: 11px; color: var(--text3); padding: 20px 0 8px; }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <i class="ti ti-snowflake"></i>
+    <span>서버 이벤트</span>
+  </div>
+  <div class="sidebar-menu" id="sidebar-menu"></div>
+</nav>
+
+<div class="main-wrap">
+  <div class="topbar"></div>
+  <div class="page-content">
+    <div class="page-title" id="site-title" ondblclick="editField('site-title','사이트 제목')">서버 이벤트 안내</div>
+    <div class="page-sub" id="site-desc" ondblclick="editField('site-desc','소개 문구')">이벤트 참여 전, 아래 규칙과 설명을 꼭 확인해 주세요.</div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-label">이벤트 종류</div>
+        <button class="btn btn-sm" id="card-edit-btn" onclick="toggleCardEditMode()"><i class="ti ti-edit"></i> 카드 편집</button>
+      </div>
+      <div class="event-cards" id="event-cards"></div>
+      <button class="add-card-btn" id="add-card-btn" onclick="openAddCard()"><i class="ti ti-plus"></i> 이벤트 카드 추가</button>
+
+      <div class="detail-panel" id="detail-panel">
+        <div class="detail-header">
+          <div class="dh-icon" id="detail-icon"></div>
+          <div>
+            <h2 id="detail-title"></h2>
+            <p id="detail-desc-text"></p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-dark btn-sm" id="edit-toggle-btn" onclick="toggleEditMode()"><i class="ti ti-edit"></i> 편집</button>
+            <button class="btn btn-sm" onclick="closeDetail()"><i class="ti ti-arrow-left"></i> 목록으로</button>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="rule-list" id="detail-rules"></div>
+          <button class="add-rule-btn" id="add-rule-btn" onclick="openAddRule()"><i class="ti ti-plus"></i> 규칙 추가</button>
+          <div class="notice-box" id="detail-notice">
+            <i class="ti ti-alert-triangle"></i>
+            <p id="detail-notice-text"></p>
+          </div>
+        </div>
+      </div>
+      <div class="edit-hint" id="edit-hint">제목·설명·유의사항을 클릭하면 수정할 수 있어요. 규칙 항목도 클릭해서 수정하세요.</div>
+    </div>
+
+    <div class="footer">Whiteout Survival 서버 이벤트 안내</div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">내용 수정</h3>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">취소</button>
+      <button class="btn btn-dark" onclick="saveModal()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ICONS = ['ti-swords','ti-package','ti-trophy','ti-users','ti-shield','ti-star','ti-crown','ti-flame','ti-bolt','ti-target','ti-flag','ti-map','ti-castle','ti-axe','ti-medal','ti-diamond','ti-clock','ti-calendar-event','ti-gift','ti-coin','ti-chart-bar','ti-rocket','ti-heart','ti-snowflake','ti-mountain','ti-campfire','ti-compass','ti-sword','ti-helmet'];
+
+const events = [
+  { icon:'ti-swords', title:'연맹 대전', desc:'서버 간 연맹끼리 전투를 벌이는 메인 이벤트', rules:[{label:'참여 조건',text:'연맹 가입 후 48시간이 경과한 플레이어만 참여 가능합니다.'},{label:'공격 대상',text:'지정된 상대 서버 연맹만 공격할 수 있으며, 아군 공격은 엄격히 금지됩니다.'},{label:'이적 금지',text:'이벤트 진행 기간 중 연맹 탈퇴 및 이적은 허용되지 않습니다.'},{label:'보고 의무',text:'중요 전황은 디스코드 또는 연맹 채팅을 통해 즉시 공유해야 합니다.'}], notice:'이벤트 중 규칙 위반 시 보상 박탈 및 연맹 추방 처리될 수 있습니다.' },
+  { icon:'ti-package', title:'자원 쟁탈', desc:'맵 곳곳의 자원을 점령해 획득하는 이벤트', rules:[{label:'점령 방식',text:'지정 자원 타일에 부대를 주둔시켜 점령 상태를 유지해야 합니다.'},{label:'중복 점령',text:'같은 연맹 내 중복 점령은 불가하며, 타 연맹과 협의된 구역을 준수하세요.'},{label:'이탈 금지',text:'점령 중 무단 이탈 시 연맹 점수에 불이익이 발생합니다.'},{label:'소통',text:'점령 중 위협 상황 발생 시 즉시 연맹 채팅으로 지원 요청하세요.'}], notice:'자원 타일 위치는 이벤트마다 변경될 수 있으니 공지를 확인하세요.' },
+  { icon:'ti-trophy', title:'개인 랭킹', desc:'개인 점수를 올려 순위를 다투는 경쟁 이벤트', rules:[{label:'점수 획득',text:'지정된 활동(건설, 연구, 전투 등)을 통해 개인 점수를 획득합니다.'},{label:'어뷰징 금지',text:'다중 계정 또는 불법 도구를 이용한 점수 획득은 영구 제재됩니다.'},{label:'순위 보상',text:'최종 순위에 따라 개인 보상이 지급되며, 순위는 이벤트 종료 후 확정됩니다.'},{label:'공정 참여',text:'타 플레이어의 활동을 방해하는 행위는 금지됩니다.'}], notice:'순위 보상은 이벤트 종료 후 24시간 이내에 우편으로 지급됩니다.' },
+  { icon:'ti-users', title:'서버 협력', desc:'서버 전체가 힘을 합쳐 목표를 달성하는 이벤트', rules:[{label:'참여 의무',text:'모든 활성 플레이어는 이벤트 기간 중 최소 1회 이상 기여해야 합니다.'},{label:'목표 공유',text:'서버 공동 목표는 공지 채널을 통해 안내되며, 달성 시 전체 보상이 지급됩니다.'},{label:'방해 금지',text:'서버 목표 달성을 방해하는 행위는 운영진 판단 하에 제재됩니다.'},{label:'보상 조건',text:'이벤트 기간 내 일정 기여도 이상인 플레이어에게만 보상이 지급됩니다.'}], notice:'서버 전체 목표 달성 여부에 따라 보상 등급이 달라질 수 있습니다.' }
+];
+
+let currentIndex=null, isEditMode=false, isCardEditMode=false;
+let modalCallback=null, modalType=null, selectedIcon=null;
+
+function renderSidebar() {
+  document.getElementById('sidebar-menu').innerHTML = events.map((ev,i)=>`
+    <button class="sidebar-item${currentIndex===i?' active':''}" onclick="showDetail(${i})">
+      <i class="ti ${ev.icon}"></i><span>${ev.title}</span>
+    </button>`).join('');
+}
+
+function renderCards() {
+  const c = document.getElementById('event-cards');
+  c.className = 'event-cards'+(isCardEditMode?' card-edit-mode':'');
+  c.innerHTML = events.map((ev,i)=>`
+    <div class="event-card${currentIndex===i&&!isCardEditMode?' active':''}" id="card-${i}" onclick="${isCardEditMode?'':'showDetail('+i+')'}">
+      <i class="ti ${ev.icon} ecard-icon"></i>
+      <h3>${ev.title}</h3><p>${ev.desc}</p>
+      <button class="card-del-btn" onclick="deleteCard(${i});event.stopPropagation()"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+}
+
+function toggleCardEditMode() {
+  isCardEditMode=!isCardEditMode;
+  const btn=document.getElementById('card-edit-btn');
+  btn.innerHTML=isCardEditMode?'<i class="ti ti-check"></i> 완료':'<i class="ti ti-edit"></i> 카드 편집';
+  document.getElementById('add-card-btn').classList.toggle('visible',isCardEditMode);
+  if(isCardEditMode&&currentIndex!==null) closeDetail();
+  renderCards(); renderSidebar();
+}
+
+function deleteCard(idx) {
+  if(!confirm(`"${events[idx].title}" 카드를 삭제할까요?`)) return;
+  if(currentIndex===idx) closeDetail();
+  else if(currentIndex>idx) currentIndex--;
+  events.splice(idx,1);
+  renderCards(); renderSidebar();
+}
+
+function openAddCard() {
+  selectedIcon='ti-star'; modalType='addCard';
+  document.getElementById('modal-title').textContent='이벤트 카드 추가';
+  document.getElementById('modal-body').innerHTML=`
+    <label>아이콘 선택</label>
+    <div class="icon-grid" id="icon-grid">
+      ${ICONS.map(ic=>`<div class="icon-opt${ic===selectedIcon?' selected':''}" data-icon="${ic}" onclick="selectIcon('${ic}')"><i class="ti ${ic}"></i></div>`).join('')}
+    </div>
+    <label>이벤트 이름</label>
+    <input type="text" id="card-title-input" placeholder="예: 영토 전쟁" />
+    <label>카드 설명</label>
+    <input type="text" id="card-desc-input" placeholder="예: 영토를 점령하는 이벤트" />`;
+  document.getElementById('modal-bg').classList.add('open');
+  setTimeout(()=>document.getElementById('card-title-input').focus(),50);
+}
+
+function selectIcon(icon) {
+  selectedIcon=icon;
+  document.querySelectorAll('.icon-opt').forEach(el=>el.classList.toggle('selected',el.dataset.icon===icon));
+}
+
+function renderRules(idx) {
+  const ev=events[idx];
+  const rulesEl=document.getElementById('detail-rules');
+  rulesEl.innerHTML=ev.rules.map((r,i)=>`
+    <div class="rule-item" data-i="${i}">
+      <div class="rule-num">${i+1}</div>
+      <div class="rule-text"><strong>${r.label}</strong> — ${r.text}</div>
+      <button class="rule-del" onclick="deleteRule(${idx},${i});event.stopPropagation()"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+
+  if(isEditMode) {
+    rulesEl.classList.add('edit-mode');
+    rulesEl.querySelectorAll('.rule-item').forEach((el,i)=>{
+      el.addEventListener('click',()=>{
+        const rule=events[currentIndex].rules[i];
+        openSimpleModal('규칙 수정',[
+          {id:'r-label',label:'항목 이름',val:rule.label},
+          {id:'r-text',label:'내용',val:rule.text,textarea:true}
+        ],()=>{
+          events[currentIndex].rules[i]={label:document.getElementById('r-label').value.trim(),text:document.getElementById('r-text').value.trim()};
+          renderRules(currentIndex);
+        });
+      });
+    });
+    document.getElementById('add-rule-btn').classList.add('visible');
+    document.getElementById('edit-hint').classList.add('visible');
+    const np=document.getElementById('detail-notice-text');
+    np.onclick=()=>openSimpleModal('유의 사항 수정',[{id:'notice-val',label:'내용',val:events[currentIndex].notice,textarea:true}],()=>{
+      events[currentIndex].notice=document.getElementById('notice-val').value.trim();
+      np.textContent=events[currentIndex].notice;
+    });
+  } else {
+    rulesEl.classList.remove('edit-mode');
+    document.getElementById('add-rule-btn').classList.remove('visible');
+    document.getElementById('edit-hint').classList.remove('visible');
+    document.getElementById('detail-notice-text').onclick=null;
+  }
+  document.getElementById('detail-notice-text').textContent=ev.notice;
+  document.getElementById('detail-notice').style.display=ev.notice?'flex':'none';
+}
+
+function showDetail(idx) {
+  if(isCardEditMode) return;
+  if(currentIndex!==null) document.getElementById('card-'+currentIndex)?.classList.remove('active');
+  currentIndex=idx; isEditMode=false;
+  document.getElementById('card-'+idx)?.classList.add('active');
+  const ev=events[idx];
+  document.getElementById('detail-icon').innerHTML=`<i class="ti ${ev.icon}"></i>`;
+  document.getElementById('detail-title').textContent=ev.title;
+  document.getElementById('detail-desc-text').textContent=ev.desc;
+  document.getElementById('edit-toggle-btn').innerHTML='<i class="ti ti-edit"></i> 편집';
+  renderRules(idx); renderSidebar();
+  document.getElementById('detail-panel').classList.add('visible');
+  document.getElementById('detail-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDetail() {
+  if(currentIndex!==null) document.getElementById('card-'+currentIndex)?.classList.remove('active');
+  currentIndex=null; isEditMode=false;
+  document.getElementById('detail-panel').classList.remove('visible');
+  document.getElementById('edit-hint').classList.remove('visible');
+  renderSidebar();
+}
+
+function toggleEditMode() {
+  isEditMode=!isEditMode;
+  const btn=document.getElementById('edit-toggle-btn');
+  btn.innerHTML=isEditMode?'<i class="ti ti-check"></i> 완료':'<i class="ti ti-edit"></i> 편집';
+  const titleEl=document.getElementById('detail-title');
+  const descEl=document.getElementById('detail-desc-text');
+  if(isEditMode) {
+    titleEl.style.cursor='pointer';
+    titleEl.onclick=()=>openSimpleModal('이벤트 이름 수정',[{id:'ev-title',label:'이름',val:events[currentIndex].title}],()=>{
+      events[currentIndex].title=document.getElementById('ev-title').value.trim();
+      titleEl.textContent=events[currentIndex].title; renderCards(); renderSidebar();
+    });
+    descEl.style.cursor='pointer';
+    descEl.onclick=()=>openSimpleModal('이벤트 설명 수정',[{id:'ev-desc',label:'설명',val:events[currentIndex].desc}],()=>{
+      events[currentIndex].desc=document.getElementById('ev-desc').value.trim();
+      descEl.textContent=events[currentIndex].desc; renderCards();
+    });
+  } else {
+    titleEl.style.cursor=''; titleEl.onclick=null;
+    descEl.style.cursor=''; descEl.onclick=null;
+  }
+  renderRules(currentIndex);
+}
+
+function deleteRule(evIdx,ruleIdx) { events[evIdx].rules.splice(ruleIdx,1); renderRules(evIdx); }
+
+function openAddRule() {
+  openSimpleModal('규칙 추가',[
+    {id:'nr-label',label:'항목 이름',val:''},
+    {id:'nr-text',label:'내용',val:'',textarea:true}
+  ],()=>{
+    const l=document.getElementById('nr-label').value.trim();
+    const t=document.getElementById('nr-text').value.trim();
+    if(!l&&!t) return;
+    events[currentIndex].rules.push({label:l,text:t}); renderRules(currentIndex);
+  });
+}
+
+function openSimpleModal(title,fields,callback) {
+  modalType='simple'; modalCallback=callback;
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').innerHTML=fields.map(f=>
+    `<label>${f.label}</label>`+(f.textarea?`<textarea id="${f.id}">${f.val||''}</textarea>`:`<input type="text" id="${f.id}" value="${(f.val||'').replace(/"/g,'&quot;')}" />`)
+  ).join('');
+  document.getElementById('modal-bg').classList.add('open');
+  setTimeout(()=>document.getElementById(fields[0].id).focus(),50);
+}
+
+function saveModal() {
+  if(modalType==='addCard') {
+    const title=document.getElementById('card-title-input')?.value.trim();
+    const desc=document.getElementById('card-desc-input')?.value.trim();
+    if(!title) return;
+    events.push({icon:selectedIcon||'ti-star',title,desc:desc||'',rules:[],notice:''});
+    renderCards(); renderSidebar();
+  } else if(modalType==='simple'&&modalCallback) { modalCallback(); }
+  closeModal();
+}
+
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); modalCallback=null; modalType=null; }
+
+function editField(id,label) {
+  const el=document.getElementById(id);
+  openSimpleModal(label+' 수정',[{id:'field-val',label:'내용',val:el.textContent}],()=>{
+    el.textContent=document.getElementById('field-val').value.trim();
+  });
+}
+
+document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+  if(e.key==='Enter'&&document.getElementById('modal-bg').classList.contains('open')&&document.activeElement.tagName!=='TEXTAREA') saveModal();
+});
+
+renderCards(); renderSidebar();
+</script>
+</body>
+</html>
