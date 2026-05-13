@@ -296,7 +296,7 @@ body {
   <div class="topbar"></div>
   <div class="page-content">
     <div class="page-title" id="site-title">서버 이벤트 안내</div>
-    <div class="page-sub" id="site-desc">이벤트 참여 전, 아래 규칙과 설명을 꼭 확인해 주세요.</div>
+    <div class="page-sub" id="site-desc">1294 rules</div>
 
     <div class="section">
       <div class="section-header">
@@ -349,10 +349,10 @@ body {
 const ICONS = ['ti-swords','ti-package','ti-trophy','ti-users','ti-shield','ti-star','ti-crown','ti-flame','ti-bolt','ti-target','ti-flag','ti-map','ti-castle','ti-axe','ti-medal','ti-diamond','ti-clock','ti-calendar-event','ti-gift','ti-coin','ti-chart-bar','ti-rocket','ti-heart','ti-snowflake','ti-mountain','ti-campfire','ti-compass','ti-sword','ti-helmet'];
 
 const events = [
-  { icon:'ti-swords', title:'연맹 대전', desc:'서버 간 연맹끼리 전투를 벌이는 메인 이벤트', rules:[{label:'참여 조건',text:'연맹 가입 후 48시간이 경과한 플레이어만 참여 가능합니다.'},{label:'공격 대상',text:'지정된 상대 서버 연맹만 공격할 수 있으며, 아군 공격은 엄격히 금지됩니다.'},{label:'이적 금지',text:'이벤트 진행 기간 중 연맹 탈퇴 및 이적은 허용되지 않습니다.'},{label:'보고 의무',text:'중요 전황은 디스코드 또는 연맹 채팅을 통해 즉시 공유해야 합니다.'}], notice:'이벤트 중 규칙 위반 시 보상 박탈 및 연맹 추방 처리될 수 있습니다.' },
-  { icon:'ti-package', title:'자원 쟁탈', desc:'맵 곳곳의 자원을 점령해 획득하는 이벤트', rules:[{label:'점령 방식',text:'지정 자원 타일에 부대를 주둔시켜 점령 상태를 유지해야 합니다.'},{label:'중복 점령',text:'같은 연맹 내 중복 점령은 불가하며, 타 연맹과 협의된 구역을 준수하세요.'},{label:'이탈 금지',text:'점령 중 무단 이탈 시 연맹 점수에 불이익이 발생합니다.'},{label:'소통',text:'점령 중 위협 상황 발생 시 즉시 연맹 채팅으로 지원 요청하세요.'}], notice:'자원 타일 위치는 이벤트마다 변경될 수 있으니 공지를 확인하세요.' },
-  { icon:'ti-trophy', title:'개인 랭킹', desc:'개인 점수를 올려 순위를 다투는 경쟁 이벤트', rules:[{label:'점수 획득',text:'지정된 활동(건설, 연구, 전투 등)을 통해 개인 점수를 획득합니다.'},{label:'어뷰징 금지',text:'다중 계정 또는 불법 도구를 이용한 점수 획득은 영구 제재됩니다.'},{label:'순위 보상',text:'최종 순위에 따라 개인 보상이 지급되며, 순위는 이벤트 종료 후 확정됩니다.'},{label:'공정 참여',text:'타 플레이어의 활동을 방해하는 행위는 금지됩니다.'}], notice:'순위 보상은 이벤트 종료 후 24시간 이내에 우편으로 지급됩니다.' },
-  { icon:'ti-users', title:'서버 협력', desc:'서버 전체가 힘을 합쳐 목표를 달성하는 이벤트', rules:[{label:'참여 의무',text:'모든 활성 플레이어는 이벤트 기간 중 최소 1회 이상 기여해야 합니다.'},{label:'목표 공유',text:'서버 공동 목표는 공지 채널을 통해 안내되며, 달성 시 전체 보상이 지급됩니다.'},{label:'방해 금지',text:'서버 목표 달성을 방해하는 행위는 운영진 판단 하에 제재됩니다.'},{label:'보상 조건',text:'이벤트 기간 내 일정 기여도 이상인 플레이어에게만 보상이 지급됩니다.'}], notice:'서버 전체 목표 달성 여부에 따라 보상 등급이 달라질 수 있습니다.' }
+  { icon:'ti-swords', title:'경기장', desc:'1294 서버 인원들은 공격 금지!', rules:[{label:'공격 대상',text:'상대 서버만 공격, 1294 서버 인원은 때리지 말아주세요.'}]},
+  { icon:'ti-package', title:'곰 사냥', desc:'20, 22, 01시 진행', rules:[{label:'8곰',text:'20:00 곰 - NO1 본맹'},{label:'10곰',text:'22:00 곰 - NO1 본맹'},{label:'1곰',text:'01:00 곰 - no1 부맹'}]},
+  { icon:'ti-users', title:'곰 집결원', desc:'곰사냥 집결원 참여 영웅 안내', rules:[{label:'사용 가능',text:'S1 제로니모 제시 제셀 서윤, S5 그웬, S7 브레들리, S8 헨드릭 소냐, S9 마그누스, S10 블랑쉬'}], notice:'해당 영웅 제외하곤 회군 가능성 있습니다.' },
+  { icon:'ti-trophy', title:'요새&성채', desc:'집결원 50K', rules:[{label:'참여 횟수',text:'기본적으로 1회만 참여 & 집결 시간 2분 남으면 중복 참여 가능'},{label:'병력 수',text:'50,000명(50K) 탑승'}], notice:'요새성채 상관 없이 기본 한 번만 참여 가능' }
 ];
 
 let currentIndex=null, isEditMode=false, isCardEditMode=false;
@@ -402,9 +402,9 @@ function openAddCard() {
       ${ICONS.map(ic=>`<div class="icon-opt${ic===selectedIcon?' selected':''}" data-icon="${ic}" onclick="selectIcon('${ic}')"><i class="ti ${ic}"></i></div>`).join('')}
     </div>
     <label>이벤트 이름</label>
-    <input type="text" id="card-title-input" placeholder="예: 영토 전쟁" />
+    <input type="text" id="card-title-input" placeholder="예: 곰 사냥" />
     <label>카드 설명</label>
-    <input type="text" id="card-desc-input" placeholder="예: 영토를 점령하는 이벤트" />`;
+    <input type="text" id="card-desc-input" placeholder="예: 20, 22, 01 진행" />`;
   document.getElementById('modal-bg').classList.add('open');
   setTimeout(()=>document.getElementById('card-title-input').focus(),50);
 }
